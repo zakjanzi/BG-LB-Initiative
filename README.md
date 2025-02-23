@@ -16,7 +16,6 @@ This document outlines two levels of system architecture for the tender applicat
 
    ![2](image-2.jpg)
 
-Several factors play a role in deciding which design will address your needs, including the number of concurrent users, budget and available human-resources.
 
 ---
 
@@ -74,12 +73,10 @@ They help ensure that the top-ranked proposals truly align with the tender's int
 ### How It Works
 
 - **User Interaction:**  
-  - A user accesses the platform via their web browser, logs in or registers, and views available tenders on the Next.js frontend.
-  - The frontend maintains fast load times and WCAG 2.1 accessibility while securely sending data to the backend.
+  - Same as 1.
 
 - **Frontend to Backend Communication:**  
-  - The Next.js frontend sends HTTPS requests to the API Gateway (using FastAPI or Express).
-  - A dedicated security layer (Auth & Access module) ensures authentication and authorization through OAuth2, 2FA, and role-based access control.
+  - Same as 1.
 
 - **Global & Internal Load Balancing:**  
   - **Global Load Balancer:** Distributes incoming traffic from external clients (browsers, third-party systems) across multiple frontend server instances.
