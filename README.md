@@ -4,8 +4,6 @@
 
 ---
 
-# BG System Architecture Documentation
-
 This document outlines two levels of system architecture for the tender application platform.
 
 1. **Basic Architecture:**  
