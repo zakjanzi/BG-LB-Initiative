@@ -9,7 +9,9 @@ This document outlines two levels of system architecture for the tender applicat
 1. **Basic Architecture:**  
    A simple design suitable for the initial deployment/prototype. It is estimated to handle a moderate number of users.
 
-2. **Production-Grade Architecture:**  
+   ![1](image-1)
+
+3. **Production-Grade Architecture:**  
    An enhanced design that incorporates load balancing, resilient design, and fault tolerance to support high scalability and robustness.
 
 Several factors play a role in deciding which design will address your needs, including the number of concurrent users, budget and available human-resources.
