@@ -1,4 +1,4 @@
-# bg
+# BG-LB Initiative Digital Platform System Design
 
 
 
@@ -12,13 +12,13 @@ This document outlines two levels of system architecture for the tender applicat
    A simple design suitable for the initial deployment/prototype. It is estimated to handle a moderate number of users.
 
 2. **Production-Grade Architecture:**  
-   An enhanced design that incorporates load balancing, resilient design, and fault tolerance to support high scalability and robustness.\
+   An enhanced design that incorporates load balancing, resilient design, and fault tolerance to support high scalability and robustness.
 
 Several factors play a role in deciding which design will address your needs, including the number of concurrent users, budget and available human-resources.
 
 ---
 
-## 1. Basic Architecture Diagram
+## 1. Basic Architecture Diagram (See image 1)
 
 ### Diagram
 
@@ -46,11 +46,11 @@ Several factors play a role in deciding which design will address your needs, in
   - **AI Workers:** Multiple FastAPI worker instances pick up tasks, perform text preprocessing, scoring, ranking, and optionally compute vector embeddings.
   - **Results:** The processed results are written back into the database.
 
-A note regarding vector embeddings: vector embeddings add value by enabling the AI processing pipeline to perform deep semantic analysis. 
+**A note regarding vector embeddings**: vector embeddings add value by enabling the AI processing pipeline to perform deep semantic analysis. 
 They help ensure that the top-ranked proposals truly align with the tender's intent by capturing the contextual and nuanced meanings behind the text, rather than relying solely on basic keyword matching.
 
 - **Database:**  
-  - **Role:** Acts as the central store for tender submissions, user/security data, and AI processing results.
+  - **Role:** Acts as the central store for tender submissions, user/security data, and AI processing results. A PostgreSQL database combined with Redis for caching is recommended.
   - **Integration:** Accessed by both the tender management module and AI workers for writing and reading data.
 
 ### Considerations
@@ -58,13 +58,13 @@ They help ensure that the top-ranked proposals truly align with the tender's int
 - **Simplicity:**  
   - This straightforward architecture is ideal for development or scenarios with lower user volume.
 - **Security & Data Integrity:**  
-  - The database is accessed exclusively via backend services (tender management and AI workers), protecting data from direct frontend exposure.
+  - The database is accessed exclusively via backend services (tender management and AI workers), protecting data from public internet exposure.
 - **Limited Scalability:**  
   - Lacks advanced load balancing and fault tolerance, which may limit performance under high load.
 
 ---
 
-## 2. Production-Grade Architecture Diagram
+## 2. Production-Grade Architecture Diagram (See image 2)
 
 ### Diagram
 
@@ -97,11 +97,11 @@ They help ensure that the top-ranked proposals truly align with the tender's int
 
 - **AI Processing Module with Load Balancer:**  
   - **Load Balancer:** Distributes tasks among multiple AI worker instances.
-  - **AI Workers:** Multiple FastAPI worker instances perform text preprocessing, scoring, ranking, and optionally compute vector embeddings.
-  - **Resilience:** Each worker is monitored via health checks and auto-scaling is managed (e.g., via Kubernetes) to ensure fault tolerance.
+  - **AI Workers:** Multiple FastAPI worker instances perform text preprocessing, scoring, ranking, and optionally compute vector embeddings (launched as container instances)
+  - **Resilience:** Each worker is monitored via health checks and auto-scaling is managed to ensure fault tolerance.
 
 - **Data Storage & Caching:**  
-  - **Role:** A clustered PostgreSQL database (or Supabase) stores all persistent data, including tender submissions and processed AI results.
+  - **Role:** A clustered PostgreSQL database stores all persistent data, including tender submissions and processed AI results.
   - **Caching:** A Redis cluster caches frequently accessed data, enhancing performance and reducing load on the primary database.
 
 ### Considerations
@@ -115,10 +115,7 @@ They help ensure that the top-ranked proposals truly align with the tender's int
   - Clustered databases and caching layers provide data redundancy and faster recovery in case of a failure.
   
 - **Security & Performance:**  
-  - The API Gateway enforces robust security policies (authentication, authorization, rate limiting) before routing requests.
+  - The API Gateway enforces strong security policies (authentication, authorization, rate limiting) before routing requests.
   - The distributed architecture minimizes single points of failure and handles high volumes of requests efficiently.
-  
-- **Operational Complexity:**  
-  - While the production-grade architecture offers significant benefits, it requires comprehensive monitoring, logging, and orchestration frameworks to manage the increased complexity.
 
 ---
